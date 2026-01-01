@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormState } from '../hooks/useFormState';
 import { Header } from './Header';
 import { WordInputGrid } from './WordInputGrid';
@@ -15,6 +15,19 @@ export const WordSubmissionForm: React.FC = () => {
   };
 
   const currentUIState = derivedState.currentUIState;
+
+  // Success screen'de body scroll'unu engelle
+  useEffect(() => {
+    if (currentUIState === 'success') {
+      document.body.classList.add('success-mode');
+    } else {
+      document.body.classList.remove('success-mode');
+    }
+    
+    return () => {
+      document.body.classList.remove('success-mode');
+    };
+  }, [currentUIState]);
 
   return (
     <div className="word-submission-form">

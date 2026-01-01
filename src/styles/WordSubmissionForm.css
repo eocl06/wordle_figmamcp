@@ -21,6 +21,14 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--bg-beige);
   color: var(--text-black);
+  overflow-x: hidden;
+}
+
+body.success-mode {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 .word-submission-form {
@@ -723,17 +731,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
 }
 
 .letter-box.empty {
   border: 1px solid var(--border-gray);
   background: transparent;
+  transform: scale(1);
+  opacity: 1;
 }
 
 .letter-box.filled {
   background: var(--green-success);
   border: none;
+  animation: fillBox 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes fillBox {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .letter-text {
@@ -774,11 +800,14 @@ body {
   border: 1px solid var(--border-gray);
   border-radius: 20px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-black);
   background: var(--bg-beige);
   outline: none;
   transition: border-color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .name-input::placeholder,
@@ -791,7 +820,7 @@ body {
 .email-input.filled {
   border-color: var(--border-dark);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: -0.28px;
 }
 
@@ -858,14 +887,24 @@ body {
 
 /* Success Screen */
 .success-screen {
-  padding-top: 82px;
-  padding-left: 24px;
-  padding-right: 24px;
-  padding-bottom: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100vh;
+  max-width: 402px;
+  margin: 0 auto;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 30px;
+  background: var(--bg-beige);
+  overflow: hidden;
+  z-index: 100;
 }
 
 .success-grid {
@@ -892,12 +931,28 @@ body {
   font-weight: 600;
   font-size: 23.644px;
   letter-spacing: -0.4729px;
-  transition: opacity 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
 }
 
 .grid-cell.filled {
   background: var(--green-success);
   color: white;
+  animation: fillCell 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes fillCell {
+  0% {
+    transform: scale(0.7) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 .grid-cell.empty {
