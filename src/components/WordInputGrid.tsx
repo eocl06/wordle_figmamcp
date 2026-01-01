@@ -14,15 +14,15 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
     if (firstEmptyIndex < 5 && inputRefs.current[firstEmptyIndex]) {
       const input = inputRefs.current[firstEmptyIndex];
       if (input) {
-        // Scroll into view when focusing
-        setTimeout(() => {
+        input.focus();
+        // Scroll into view when focusing (no delay for faster response)
+        requestAnimationFrame(() => {
           input.scrollIntoView({
             behavior: 'smooth',
             block: 'center',
             inline: 'nearest',
           });
-        }, 100);
-        input.focus();
+        });
       }
     }
   }, [word.length]);
@@ -30,7 +30,8 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
   const handleFocus = (index: number) => {
     const input = inputRefs.current[index];
     if (input) {
-      setTimeout(() => {
+      // Immediate scroll for faster response
+      requestAnimationFrame(() => {
         input.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -38,17 +39,19 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
         });
         
         // Additional scroll for mobile devices
-        const rect = input.getBoundingClientRect();
-        const viewportHeight = window.visualViewport?.height || window.innerHeight;
-        const scrollOffset = Math.max(0, rect.bottom - viewportHeight + 100);
-        
-        if (scrollOffset > 0) {
-          window.scrollBy({
-            top: scrollOffset,
-            behavior: 'smooth',
-          });
-        }
-      }, 300);
+        requestAnimationFrame(() => {
+          const rect = input.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const scrollOffset = Math.max(0, rect.bottom - viewportHeight + 100);
+          
+          if (scrollOffset > 0) {
+            window.scrollBy({
+              top: scrollOffset,
+              behavior: 'smooth',
+            });
+          }
+        });
+      });
     }
   };
 
