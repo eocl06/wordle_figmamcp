@@ -12,9 +12,45 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
     // Auto-focus first empty box or last filled box
     const firstEmptyIndex = word.length;
     if (firstEmptyIndex < 5 && inputRefs.current[firstEmptyIndex]) {
-      inputRefs.current[firstEmptyIndex]?.focus();
+      const input = inputRefs.current[firstEmptyIndex];
+      if (input) {
+        // Scroll into view when focusing
+        setTimeout(() => {
+          input.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+            inline: 'nearest',
+          });
+        }, 100);
+        input.focus();
+      }
     }
   }, [word.length]);
+
+  const handleFocus = (index: number) => {
+    const input = inputRefs.current[index];
+    if (input) {
+      setTimeout(() => {
+        input.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'nearest',
+        });
+        
+        // Additional scroll for mobile devices
+        const rect = input.getBoundingClientRect();
+        const viewportHeight = window.visualViewport?.height || window.innerHeight;
+        const scrollOffset = Math.max(0, rect.bottom - viewportHeight + 100);
+        
+        if (scrollOffset > 0) {
+          window.scrollBy({
+            top: scrollOffset,
+            behavior: 'smooth',
+          });
+        }
+      }, 300);
+    }
+  };
 
   const handleInput = (index: number, value: string) => {
     const letter = value.slice(-1).toUpperCase(); // Get last character
@@ -71,6 +107,7 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
                 value=""
                 onChange={(e) => handleInput(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
+                onFocus={() => handleFocus(index)}
                 className="letter-input"
                 autoComplete="off"
                 aria-label={`Letter ${index + 1} of 5`}

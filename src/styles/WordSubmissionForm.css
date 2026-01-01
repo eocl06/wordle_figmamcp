@@ -33,11 +33,13 @@ body.success-mode {
 
 .word-submission-form {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   background-color: var(--bg-beige);
   position: relative;
   width: 100%;
   max-width: 402px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -175,7 +177,10 @@ body.success-mode {
   padding-top: 100px;
   padding-left: 36px;
   padding-right: 36px;
-  padding-bottom: 60px;
+  padding-bottom: 100px;
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  min-height: calc(100vh - 100px);
+  min-height: calc(-webkit-fill-available - 100px);
 }
 
 .main-title {
@@ -703,6 +708,7 @@ body.success-mode {
 /* Word Input Section */
 .word-input-section {
   margin-bottom: 48px;
+  scroll-margin-top: 120px;
 }
 
 .section-label {
@@ -787,6 +793,7 @@ body.success-mode {
 /* User Info Form */
 .user-info-form {
   margin-bottom: 32px;
+  scroll-margin-top: 120px;
 }
 
 .input-group {
@@ -808,6 +815,8 @@ body.success-mode {
   appearance: none;
   -webkit-appearance: none;
   -webkit-tap-highlight-color: transparent;
+  scroll-margin-top: 120px;
+  scroll-margin-bottom: 100px;
 }
 
 .name-input::placeholder,
