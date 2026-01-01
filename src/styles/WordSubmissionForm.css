@@ -737,29 +737,71 @@ body.success-mode {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.15s ease-out, border-color 0.15s ease-out;
+  position: relative;
+  overflow: hidden;
   transform-origin: center;
 }
 
 .letter-box.empty {
   border: 1px solid var(--border-gray);
   background: transparent;
+  transition: border-color 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.letter-box.empty:active {
+  transform: scale(0.95);
 }
 
 .letter-box.filled {
   background: var(--green-success);
   border: 1px solid var(--green-success);
-  animation: fillBox 0.2s ease-out forwards;
+  animation: fillBoxModern 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes fillBox {
+.letter-box.filled::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 20px;
+  animation: shine 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes fillBoxModern {
   0% {
-    transform: scale(0.95);
-    opacity: 0.9;
+    transform: scale(0.85) rotate(-3deg);
+    opacity: 0;
+    border-radius: 25px;
+  }
+  50% {
+    transform: scale(1.08) rotate(2deg);
+    border-radius: 18px;
+  }
+  75% {
+    transform: scale(0.98) rotate(-1deg);
   }
   100% {
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
     opacity: 1;
+    border-radius: 20px;
+  }
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%) translateY(100%);
   }
 }
 
@@ -769,17 +811,25 @@ body.success-mode {
   font-size: 26px;
   color: white;
   letter-spacing: -0.52px;
-  animation: letterAppear 0.15s ease-out forwards;
+  position: relative;
+  z-index: 1;
+  animation: letterAppearModern 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes letterAppear {
+@keyframes letterAppearModern {
   0% {
     opacity: 0;
-    transform: translateY(-2px);
+    transform: translateY(8px) scale(0.8);
+    filter: blur(4px);
+  }
+  60% {
+    transform: translateY(-2px) scale(1.05);
+    filter: blur(0px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
   }
 }
 
@@ -801,15 +851,24 @@ body.success-mode {
 .user-info-form {
   margin-bottom: 32px;
   scroll-margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .input-group {
   margin-bottom: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .name-input,
 .email-input {
-  width: 332px;
+  width: 100%;
+  max-width: 332px;
   padding: 20px 21px;
   border: 1px solid var(--border-gray);
   border-radius: 20px;
@@ -824,6 +883,7 @@ body.success-mode {
   -webkit-tap-highlight-color: transparent;
   scroll-margin-top: 120px;
   scroll-margin-bottom: 100px;
+  box-sizing: border-box;
 }
 
 .name-input::placeholder,
@@ -1049,6 +1109,15 @@ body.success-mode {
   .disclaimer {
     width: 100%;
     max-width: 332px;
+  }
+  
+  .user-info-form {
+    align-items: center;
+  }
+  
+  .input-group {
+    width: 100%;
+    align-items: center;
   }
   
   .submit-button,
