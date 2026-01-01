@@ -1,4 +1,3 @@
-import React from 'react';
 import { WordSubmissionForm } from './components/WordSubmissionForm';
 import './styles/WordSubmissionForm.css';
 
