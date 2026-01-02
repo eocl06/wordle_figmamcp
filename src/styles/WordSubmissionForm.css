@@ -765,21 +765,21 @@ body.success-mode {
 .letter-box.filled {
   background: var(--green-success);
   border: 1px solid var(--green-success);
-  animation: fillBoxSmooth 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fillBoxInstant 0.15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .letter-box.filled::before {
   display: none;
 }
 
-@keyframes fillBoxSmooth {
+@keyframes fillBoxInstant {
   0% {
     background: transparent;
     border-color: var(--border-gray);
-    transform: scale(1);
+    transform: scale(0.92);
   }
-  50% {
-    transform: scale(1.05);
+  60% {
+    transform: scale(1.03);
   }
   100% {
     background: var(--green-success);
