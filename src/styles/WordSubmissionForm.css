@@ -713,7 +713,7 @@ body.success-mode {
 
 /* User Info Section */
 .user-info-section {
-  margin-bottom: 48px;
+  margin-bottom: 24px;
   scroll-margin-top: 120px;
   display: flex;
   flex-direction: column;
@@ -765,53 +765,21 @@ body.success-mode {
 .letter-box.filled {
   background: var(--green-success);
   border: 1px solid var(--green-success);
-  animation: fillBoxModern 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: fillBoxSimple 0.15s ease-out forwards;
 }
 
 .letter-box.filled::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%);
-  border-radius: 20px;
-  animation: shine 0.5s ease-out 0.2s forwards;
-  opacity: 0;
+  display: none;
 }
 
-@keyframes fillBoxModern {
+@keyframes fillBoxSimple {
   0% {
-    transform: scale(0.85) rotate(-3deg);
-    opacity: 0;
-    border-radius: 25px;
-  }
-  50% {
-    transform: scale(1.08) rotate(2deg);
-    border-radius: 18px;
-  }
-  75% {
-    transform: scale(0.98) rotate(-1deg);
+    transform: scale(1.1);
+    opacity: 0.8;
   }
   100% {
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
     opacity: 1;
-    border-radius: 20px;
-  }
-}
-
-@keyframes shine {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%) translateY(-100%);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%) translateY(100%);
   }
 }
 
@@ -823,23 +791,17 @@ body.success-mode {
   letter-spacing: -0.52px;
   position: relative;
   z-index: 1;
-  animation: letterAppearModern 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: letterAppearSimple 0.15s ease-out forwards;
 }
 
-@keyframes letterAppearModern {
+@keyframes letterAppearSimple {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.8);
-    filter: blur(4px);
-  }
-  60% {
-    transform: translateY(-2px) scale(1.05);
-    filter: blur(0px);
+    transform: scale(0.9);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0px);
+    transform: scale(1);
   }
 }
 
@@ -936,7 +898,7 @@ body.success-mode {
   color: var(--text-tertiary);
   width: 332px;
   margin-top: -12px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 /* Submit Button */
@@ -973,6 +935,26 @@ body.success-mode {
 
 .submit-button:active:not(.disabled) {
   transform: scale(0.98);
+}
+
+/* Error Banner */
+.error-banner {
+  width: 100%;
+  max-width: 345px;
+  margin: 0 auto 20px;
+  padding: 12px 20px;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.error-banner-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #e74c3c;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* Success Screen */

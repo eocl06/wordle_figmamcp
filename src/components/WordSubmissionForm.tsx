@@ -88,10 +88,18 @@ export const WordSubmissionForm: React.FC = () => {
             *kelimen yayınlandığı gün senin adın ve soyadınla yayınlanacak, ve ayrıca sana mail ile bunu ulaştıracağız
           </p>
 
+          {state.submissionStatus === 'error' && (
+            <div className="error-banner">
+              <p className="error-banner-text">
+                {state.errors.word || 'Bir hata oluştu. Lütfen tekrar deneyin.'}
+              </p>
+            </div>
+          )}
           <button
             className={`submit-button ${derivedState.submitEnabled ? 'enabled' : 'disabled'}`}
             onClick={submitForm}
             disabled={!derivedState.submitEnabled || state.isSubmitting}
+            aria-label="Formu gönder"
           >
             {state.isSubmitting ? 'Gönderiliyor...' : 'Gönder'}
           </button>

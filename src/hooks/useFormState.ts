@@ -103,9 +103,9 @@ export const useFormState = () => {
 
   const submitForm = useCallback(async () => {
     // Validate before submission
-    const wordError = validateWord(state.word) ? undefined : 'Word must be exactly 5 Turkish letters';
-    const nameError = validateName(state.name) ? undefined : 'Name must be at least 2 characters';
-    const emailError = validateEmail(state.email) ? undefined : 'Please enter a valid email';
+    const wordError = validateWord(state.word) ? undefined : 'Kelime tam olarak 5 harf olmalıdır';
+    const nameError = validateName(state.name) ? undefined : 'İsim en az 2 karakter olmalıdır';
+    const emailError = validateEmail(state.email) ? undefined : 'Lütfen geçerli bir e-posta adresi girin';
 
     if (wordError || nameError || emailError) {
       setState(prev => ({
@@ -141,7 +141,12 @@ export const useFormState = () => {
         ...prev,
         isSubmitting: false,
         submissionStatus: 'error',
-        errors: { ...prev.errors, word: 'Submission failed. Please try again.' },
+        errors: { 
+          ...prev.errors, 
+          word: 'Gönderim başarısız oldu. Lütfen tekrar deneyin.',
+          name: undefined,
+          email: undefined,
+        },
       }));
     }
   }, [state.word, state.name, state.email]);
