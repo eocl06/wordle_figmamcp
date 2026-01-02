@@ -5,7 +5,6 @@ import { WordInputGrid } from './WordInputGrid';
 import { UserInfoForm } from './UserInfoForm';
 import { SuccessGrid } from './SuccessGrid';
 import { SuccessMessage } from './SuccessMessage';
-import { images } from '../assets/images';
 
 export const WordSubmissionForm: React.FC = () => {
   const { state, derivedState, updateWord, updateName, updateEmail, submitForm } = useFormState();
@@ -46,14 +45,6 @@ export const WordSubmissionForm: React.FC = () => {
           <h1 className="main-title">
             Bundle Games'e yeni oyun: Wordle Mix
           </h1>
-
-          <div className="promotional-banner">
-            <img 
-              src={images.phoneMockupFull} 
-              alt="Wordle Mix Promotional Banner" 
-              className="promotional-banner-image"
-            />
-          </div>
 
           <div className="description-section">
             <p className="description-text">

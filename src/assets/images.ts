@@ -5,13 +5,13 @@ export const images = {
   wifi: "https://www.figma.com/api/mcp/asset/2d16d746-6257-4572-b32a-83d7a1961cb3",
   battery: "https://www.figma.com/api/mcp/asset/5fc20455-efbc-400f-b191-f51cf3142d65",
   
-  // Logo - MIX badges
-  mixBadge1: "https://www.figma.com/api/mcp/asset/dd5a46f0-0c47-49fc-9f23-71cb331116c5",
-  mixBadge2: "https://www.figma.com/api/mcp/asset/bc8bd178-f861-4f2a-a046-8ee0776d9aa7",
-  mixBadge3: "https://www.figma.com/api/mcp/asset/ec863b83-b7b2-44c2-b528-7d4e6cdbf1c6",
+  // Logo - MIX badges (updated from Figma)
+  mixBadge1: "https://www.figma.com/api/mcp/asset/900d4b37-9a0c-4500-97b6-a69ae118ab6e",
+  mixBadge2: "https://www.figma.com/api/mcp/asset/1a7005e3-1c4b-4a3b-afda-d708b1c9bf22",
+  mixBadge3: "https://www.figma.com/api/mcp/asset/7208495f-30d0-4b99-a1a0-06dfcebd1c1c",
   
-  // Share button
-  shareArrow: "https://www.figma.com/api/mcp/asset/7a51e128-76b8-4e43-948b-8f11d439124a",
+  // Share button (updated from Figma)
+  shareArrow: "https://www.figma.com/api/mcp/asset/132057ac-1ad9-4b04-a16d-10303538fd72",
   
   // Phone mockup içindeki görseller
   userProfileCircle: "https://www.figma.com/api/mcp/asset/ade24867-cbfd-4d46-8a48-fff169779d93",
