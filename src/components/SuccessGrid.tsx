@@ -7,32 +7,33 @@ interface SuccessGridProps {
 export const SuccessGrid: React.FC<SuccessGridProps> = ({ word }) => {
   const wordString = word.join('');
   
-  // Create grid: 5 columns, 4 rows
-  const rows = [
-    wordString.split(''), // First row: submitted word
-    Array(5).fill(''), // Second row: empty
-    Array(5).fill(''), // Third row: empty
-    Array(5).fill(''), // Fourth row: empty
-  ];
-
-  const opacities = [1, 0.7, 0.5, 0.3, 0.1]; // Opacity for each row
+  // Create grid: 5 columns, 5 rows (total 25 boxes)
+  // First row: submitted word (green, opacity 1)
+  // Rows 2-5: empty boxes with decreasing opacity
+  const totalBoxes = 25;
+  const boxes: Array<{ letter: string; isFilled: boolean; opacity: number }> = [];
+  
+  // First row: word letters (5 boxes)
+  wordString.split('').forEach(letter => {
+    boxes.push({ letter, isFilled: true, opacity: 1 });
+  });
+  
+  // Remaining rows: empty boxes with opacity
+  const opacities = [0.7, 0.5, 0.3, 0.1]; // For rows 2, 3, 4, 5
+  for (let i = 5; i < totalBoxes; i++) {
+    const rowIndex = Math.floor((i - 5) / 5); // Which empty row (0-3)
+    boxes.push({ letter: '', isFilled: false, opacity: opacities[rowIndex] });
+  }
 
   return (
     <div className="success-grid">
-      {rows.map((row, rowIndex) => (
-        <div key={rowIndex} className="grid-row">
-          {row.map((letter, colIndex) => {
-            const isFilled = rowIndex === 0 && letter !== '';
-            return (
-              <div
-                key={colIndex}
-                className={`grid-cell ${isFilled ? 'filled' : 'empty'}`}
-                style={{ opacity: isFilled ? 1 : opacities[rowIndex] }}
-              >
-                {letter}
-              </div>
-            );
-          })}
+      {boxes.map((box, index) => (
+        <div
+          key={index}
+          className={`grid-cell ${box.isFilled ? 'filled' : 'empty'}`}
+          style={{ opacity: box.isFilled ? 1 : box.opacity }}
+        >
+          {box.letter}
         </div>
       ))}
     </div>

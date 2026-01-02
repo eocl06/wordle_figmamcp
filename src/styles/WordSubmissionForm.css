@@ -817,6 +817,21 @@ body.success-mode {
   color: var(--text-black);
   outline: none;
   text-transform: uppercase;
+  cursor: text;
+}
+
+.letter-input.filled {
+  color: white;
+}
+
+.letter-box.filled .letter-input {
+  color: white;
+  caret-color: white;
+}
+
+.letter-box.filled .letter-input::selection {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
 }
 
 /* User Info Form */
@@ -981,15 +996,12 @@ body.success-mode {
 
 .success-grid {
   display: flex;
-  flex-direction: column;
-  gap: 3.637px;
-  margin-bottom: 20px;
-}
-
-.grid-row {
-  display: flex;
+  flex-wrap: wrap;
   gap: 3.637px;
   justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: calc(58px * 5 + 3.637px * 4);
 }
 
 .grid-cell {
@@ -1003,28 +1015,11 @@ body.success-mode {
   font-weight: 600;
   font-size: 23.644px;
   letter-spacing: -0.4729px;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform-origin: center;
 }
 
 .grid-cell.filled {
-  background: var(--green-success);
+  background: #68a963;
   color: white;
-  animation: fillCell 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes fillCell {
-  0% {
-    transform: scale(0.7) rotate(-5deg);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.15) rotate(2deg);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
 }
 
 .grid-cell.empty {
@@ -1055,13 +1050,6 @@ body.success-mode {
   margin-bottom: 8px;
 }
 
-.success-info {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  line-height: 1.4;
-  color: var(--text-tertiary);
-  margin-bottom: 30px;
-}
 
 .return-button {
   width: 345px;

@@ -97,23 +97,25 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
           <div
             key={index}
             className={`letter-box ${isFilled ? 'filled' : 'empty'}`}
+            onClick={() => {
+              // Click on filled box to edit
+              if (isFilled && inputRefs.current[index]) {
+                inputRefs.current[index]?.focus();
+              }
+            }}
           >
-            {isFilled ? (
-              <span className="letter-text">{letter}</span>
-            ) : (
-              <input
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="text"
-                maxLength={1}
-                value=""
-                onChange={(e) => handleInput(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                onFocus={() => handleFocus(index)}
-                className="letter-input"
-                autoComplete="off"
-                aria-label={`Letter ${index + 1} of 5`}
-              />
-            )}
+            <input
+              ref={(el) => (inputRefs.current[index] = el)}
+              type="text"
+              maxLength={1}
+              value={letter}
+              onChange={(e) => handleInput(index, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              onFocus={() => handleFocus(index)}
+              className={`letter-input ${isFilled ? 'filled' : ''}`}
+              autoComplete="off"
+              aria-label={`Letter ${index + 1} of 5`}
+            />
           </div>
         );
       })}
