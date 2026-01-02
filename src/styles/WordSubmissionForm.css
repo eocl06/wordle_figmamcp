@@ -713,7 +713,7 @@ body.success-mode {
 
 /* User Info Section */
 .user-info-section {
-  margin-bottom: 24px;
+  margin-bottom: 8px;
   scroll-margin-top: 120px;
   display: flex;
   flex-direction: column;
@@ -765,21 +765,26 @@ body.success-mode {
 .letter-box.filled {
   background: var(--green-success);
   border: 1px solid var(--green-success);
-  animation: fillBoxSimple 0.15s ease-out forwards;
+  animation: fillBoxSmooth 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .letter-box.filled::before {
   display: none;
 }
 
-@keyframes fillBoxSimple {
+@keyframes fillBoxSmooth {
   0% {
-    transform: scale(1.1);
-    opacity: 0.8;
+    background: transparent;
+    border-color: var(--border-gray);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
   }
   100% {
+    background: var(--green-success);
+    border-color: var(--green-success);
     transform: scale(1);
-    opacity: 1;
   }
 }
 
@@ -913,7 +918,7 @@ body.success-mode {
   color: var(--text-tertiary);
   width: 332px;
   margin-top: -12px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 /* Submit Button */
@@ -983,12 +988,12 @@ body.success-mode {
   height: 100vh;
   max-width: 402px;
   margin: 0 auto;
-  padding: 0;
+  padding-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 30px;
+  justify-content: flex-start;
+  gap: 0;
   background: var(--bg-beige);
   overflow: hidden;
   z-index: 100;
@@ -999,7 +1004,7 @@ body.success-mode {
   flex-wrap: wrap;
   gap: 3.637px;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: -20px;
   width: 100%;
   max-width: calc(58px * 5 + 3.637px * 4);
 }
@@ -1015,6 +1020,8 @@ body.success-mode {
   font-weight: 600;
   font-size: 23.644px;
   letter-spacing: -0.4729px;
+  line-height: 1;
+  padding: 0;
 }
 
 .grid-cell.filled {
@@ -1023,8 +1030,8 @@ body.success-mode {
 }
 
 .grid-cell.empty {
-  background: white;
-  border: 0.909px solid #e5e3d3;
+  background: var(--bg-beige);
+  border: 1px solid var(--border-gray);
 }
 
 .success-message {
@@ -1039,7 +1046,8 @@ body.success-mode {
   line-height: 1.13;
   letter-spacing: -0.88px;
   color: var(--text-black);
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+  margin-top: 0;
 }
 
 .success-subtitle {
@@ -1047,7 +1055,7 @@ body.success-mode {
   font-size: 24px;
   line-height: 1.3;
   color: var(--text-tertiary);
-  margin-bottom: 8px;
+  margin-bottom: 40px;
 }
 
 
