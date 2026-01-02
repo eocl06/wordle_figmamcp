@@ -54,7 +54,7 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
   };
 
   const handleInput = (index: number, value: string) => {
-    const letter = value.slice(-1).toUpperCase(); // Get last character
+    const letter = value.slice(-1).toLocaleUpperCase('tr-TR'); // Get last character with Turkish locale
     if (letter && /[A-Za-zÇĞİÖŞÜçğıöşü]/.test(letter)) {
       onWordChange(index, letter);
       // Move to next box
@@ -79,7 +79,7 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
 
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-    const pastedText = e.clipboardData.getData('text').toUpperCase().slice(0, 5);
+    const pastedText = e.clipboardData.getData('text').toLocaleUpperCase('tr-TR').slice(0, 5);
     pastedText.split('').forEach((letter, index) => {
       if (index < 5 && /[A-Za-zÇĞİÖŞÜçğıöşü]/.test(letter)) {
         onWordChange(index, letter);

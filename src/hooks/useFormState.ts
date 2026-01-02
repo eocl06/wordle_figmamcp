@@ -67,8 +67,8 @@ export const useFormState = () => {
     setState(prev => {
       const newWord = [...prev.word];
       if (letter) {
-        // Convert to uppercase and validate Turkish character
-        const upperLetter = letter.toUpperCase();
+        // Convert to uppercase with Turkish locale and validate Turkish character
+        const upperLetter = letter.toLocaleUpperCase('tr-TR');
         if (TURKISH_LETTERS.test(upperLetter)) {
           newWord[index] = upperLetter;
         }
