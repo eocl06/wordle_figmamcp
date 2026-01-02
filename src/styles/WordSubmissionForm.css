@@ -717,7 +717,7 @@ body.success-mode {
   scroll-margin-top: 120px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -1123,6 +1123,10 @@ body.success-mode {
   .disclaimer {
     width: 100%;
     max-width: 332px;
+  }
+  
+  .user-info-section {
+    align-items: flex-start;
   }
   
   .user-info-form {

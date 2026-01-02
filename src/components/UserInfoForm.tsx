@@ -24,26 +24,21 @@ export const UserInfoForm: React.FC<UserInfoFormProps> = ({
   const scrollIntoView = (element: HTMLInputElement | null) => {
     if (!element) return;
     
-    // Delay to ensure keyboard is open
-    setTimeout(() => {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'nearest',
-      });
-      
-      // Additional scroll for mobile devices
-      const rect = element.getBoundingClientRect();
-      const viewportHeight = window.visualViewport?.height || window.innerHeight;
-      const scrollOffset = Math.max(0, rect.bottom - viewportHeight + 100);
-      
-      if (scrollOffset > 0) {
-        window.scrollBy({
-          top: scrollOffset,
+    // Sadece input görünür değilse scroll yap
+    const rect = element.getBoundingClientRect();
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+    
+    if (!isVisible) {
+      // Sadece görünür değilse scroll yap
+      setTimeout(() => {
+        element.scrollIntoView({
           behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
         });
-      }
-    }, 300);
+      }, 200);
+    }
   };
 
   const handleNameFocus = () => {

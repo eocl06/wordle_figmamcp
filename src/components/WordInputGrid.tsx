@@ -15,13 +15,19 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
       const input = inputRefs.current[firstEmptyIndex];
       if (input) {
         input.focus();
-        // Scroll into view when focusing (no delay for faster response)
+        // Sadece görünür değilse scroll yap
         requestAnimationFrame(() => {
-          input.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            inline: 'nearest',
-          });
+          const rect = input.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+          
+          if (!isVisible) {
+            input.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+              inline: 'nearest',
+            });
+          }
         });
       }
     }
@@ -30,28 +36,20 @@ export const WordInputGrid: React.FC<WordInputGridProps> = ({ word, onWordChange
   const handleFocus = (index: number) => {
     const input = inputRefs.current[index];
     if (input) {
-      // Immediate scroll for faster response
-      requestAnimationFrame(() => {
-        input.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'nearest',
-        });
-        
-        // Additional scroll for mobile devices
+      // Sadece input görünür değilse scroll yap
+      const rect = input.getBoundingClientRect();
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+      
+      if (!isVisible) {
         requestAnimationFrame(() => {
-          const rect = input.getBoundingClientRect();
-          const viewportHeight = window.visualViewport?.height || window.innerHeight;
-          const scrollOffset = Math.max(0, rect.bottom - viewportHeight + 100);
-          
-          if (scrollOffset > 0) {
-            window.scrollBy({
-              top: scrollOffset,
-              behavior: 'smooth',
-            });
-          }
+          input.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'nearest',
+          });
         });
-      });
+      }
     }
   };
 

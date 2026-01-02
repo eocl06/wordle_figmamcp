@@ -29,31 +29,6 @@ export const WordSubmissionForm: React.FC = () => {
     };
   }, [currentUIState]);
 
-  // Visual Viewport API ile klavye açıldığında viewport değişikliklerini handle et
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.visualViewport) {
-      const handleViewportChange = () => {
-        const activeElement = document.activeElement as HTMLElement;
-        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-          setTimeout(() => {
-            activeElement.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center',
-              inline: 'nearest',
-            });
-          }, 100);
-        }
-      };
-
-      window.visualViewport.addEventListener('resize', handleViewportChange);
-      window.visualViewport.addEventListener('scroll', handleViewportChange);
-
-      return () => {
-        window.visualViewport?.removeEventListener('resize', handleViewportChange);
-        window.visualViewport?.removeEventListener('scroll', handleViewportChange);
-      };
-    }
-  }, []);
 
   return (
     <div className="word-submission-form">
