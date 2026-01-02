@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Wordle Mix'e 5 harfli kelime öner. Kelimen seçilirse günü geldiğinde herkes senin kelimeni oynasın!" />
+  <meta name="keywords" content="wordle, wordle mix, kelime oyunu, bundle games" />
+  <meta name="author" content="Bundle Games" />
+  <meta property="og:title" content="Wordle Mix - Kelime Öner" />
+  <meta property="og:description" content="Aklındaki 5 harfli kelimeyi gönder, sırası geldiğinde herkes senin kelimeni oynasın!" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#a1de6e" />
+  <title>Wordle Mix - Kelime Öner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Barlow:wght@600&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Color Variables */
+    :root {
+      --bg-beige: #f3f1e2;
+      --green-primary: #a1de6e;
+      --green-success: #68a963;
+      --border-gray: #c0beb0;
+      --border-dark: #353e45;
+      --text-primary: #151515;
+      --text-secondary: #656456;
+      --text-tertiary: #9c9b8d;
+      --text-black: #000000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg-beige);
+      color: var(--text-black);
+      overflow-x: hidden;
+    }
+
+    body.success-mode {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+    }
+
+    .word-submission-form {
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      background-color: var(--bg-beige);
+      position: relative;
+      width: 100%;
+      max-width: 402px;
+      margin: 0 auto;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    .header {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 402px;
+      padding: 24px 16px 20px;
+      z-index: 10;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo-icon-wrapper {
+      position: relative;
+      width: 8.981px;
+      height: 16.329px;
+      margin-right: 7.98px;
+    }
+
+    .logo-icon-top {
+      position: absolute;
+      top: 0;
+      left: 7.98px;
+      width: 8.981px;
+      height: 16.329px;
+      background: var(--green-primary);
+      border: 1px solid var(--text-black);
+      border-radius: 0 0.938px 0.938px 0.938px;
+    }
+
+    .logo-icon-bottom {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 8.981px;
+      height: 9.797px;
+      background: rgba(161, 222, 110, 0.5);
+      border: 1px solid var(--text-black);
+      border-radius: 0.938px 0 0.938px 0.938px;
+    }
+
+    .logo-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 23px;
+      letter-spacing: -0.5832px;
+      color: var(--text-black);
+    }
+
+    .mix-badges {
+      display: flex;
+      gap: 0;
+      margin-left: 4px;
+      align-items: center;
+    }
+
+    .mix-badges .badge {
+      width: 18px;
+      height: 18px;
+      display: block;
+      margin-left: -4px;
+      z-index: 3;
+      position: relative;
+    }
+
+    .mix-badges .badge.badge-1 {
+      z-index: 3;
+    }
+
+    .mix-badges .badge.badge-2 {
+      z-index: 2;
+    }
+
+    .mix-badges .badge.badge-3 {
+      z-index: 1;
+    }
+
+    .share-button {
+      background: none;
+      border: none;
+      font-family: 'Barlow', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-black);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5.957px;
+    }
+
+    .share-icon {
+      width: 15.77px;
+      height: 13.341px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(180deg) scaleY(-1);
+    }
+
+    .share-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Form Screen Styles */
+    .form-screen {
+      padding-top: 100px;
+      padding-left: 36px;
+      padding-right: 36px;
+      padding-bottom: 100px;
+      padding-bottom: calc(100px + env(safe-area-inset-bottom));
+      min-height: calc(100vh - 100px);
+      min-height: calc(-webkit-fill-available - 100px);
+    }
+
+    .main-title {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 30px;
+      line-height: 1.13;
+      letter-spacing: -0.6px;
+      color: var(--text-black);
+      margin-bottom: 40px;
+      width: 332px;
+    }
+
+    /* Promotional Banner */
+    .promotional-banner {
+      margin-bottom: 48px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .promotional-banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 9.827px;
+    }
+
+    /* Description Section */
+    .description-section {
+      margin-bottom: 48px;
+    }
+
+    .description-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      width: 332px;
+    }
+
+    .description-text strong {
+      font-weight: 700;
+    }
+
+    /* Word Input Section */
+    .word-input-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 120px;
+    }
+
+    /* User Info Section */
+    .user-info-section {
+      margin-bottom: 8px;
+      scroll-margin-top: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .section-label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-primary);
+      text-transform: capitalize;
+      margin-bottom: 16px;
+      width: 330px;
+    }
+
+    .word-input-grid {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .letter-box {
+      width: 63px;
+      height: 63px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      transform-origin: center;
+    }
+
+    .letter-box.empty {
+      border: 1px solid var(--border-gray);
+      background: transparent;
+      transition: border-color 0.2s ease-out, transform 0.2s ease-out;
+    }
+
+    .letter-box.empty:active {
+      transform: scale(0.95);
+    }
+
+    .letter-box.filled {
+      background: var(--green-success);
+      border: 1px solid var(--green-success);
+      animation: fillBoxSmooth 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .letter-box.filled::before {
+      display: none;
+    }
+
+    @keyframes fillBoxSmooth {
+      0% {
+        background: transparent;
+        border-color: var(--border-gray);
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        background: var(--green-success);
+        border-color: var(--green-success);
+        transform: scale(1);
+      }
+    }
+
+    .letter-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 26px;
+      color: var(--text-black);
+      outline: none;
+      text-transform: uppercase;
+      cursor: text;
+    }
+
+    .letter-input.filled {
+      color: white;
+    }
+
+    .letter-box.filled .letter-input {
+      color: white;
+      caret-color: white;
+    }
+
+    .letter-box.filled .letter-input::selection {
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    /* User Info Form */
+    .user-info-form {
+      margin-bottom: 16px;
+      scroll-margin-top: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .name-input,
+    .email-input {
+      width: 100%;
+      max-width: 332px;
+      padding: 20px 21px;
+      border: 1px solid var(--border-gray);
+      border-radius: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      color: var(--text-black);
+      background: var(--bg-beige);
+      outline: none;
+      transition: border-color 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      scroll-margin-top: 120px;
+      scroll-margin-bottom: 100px;
+      box-sizing: border-box;
+    }
+
+    .name-input::placeholder,
+    .email-input::placeholder {
+      color: #9b9b9b;
+      font-weight: 400;
+    }
+
+    .name-input.filled,
+    .email-input.filled {
+      border-color: var(--border-dark);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.28px;
+    }
+
+    .name-input:focus,
+    .email-input:focus {
+      border-color: var(--border-dark);
+    }
+
+    .name-input.error,
+    .email-input.error {
+      border-color: #e74c3c;
+    }
+
+    .error-message {
+      display: block;
+      color: #e74c3c;
+      font-size: 12px;
+      margin-top: 4px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Disclaimer */
+    .disclaimer {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-tertiary);
+      width: 332px;
+      margin-top: -12px;
+      margin-bottom: 12px;
+    }
+
+    /* Submit Button */
+    .submit-button {
+      width: 345px;
+      max-width: 100%;
+      padding: 9px 79px;
+      background: var(--green-primary);
+      border: none;
+      border-radius: 52px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-black);
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      line-height: 36.781px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .submit-button.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .submit-button.enabled {
+      opacity: 1;
+    }
+
+    .submit-button:hover:not(.disabled) {
+      opacity: 0.9;
+    }
+
+    .submit-button:active:not(.disabled) {
+      transform: scale(0.98);
+    }
+
+    /* Error Banner */
+    .error-banner {
+      width: 100%;
+      max-width: 345px;
+      margin: 0 auto 20px;
+      padding: 12px 20px;
+      background: #fee;
+      border: 1px solid #fcc;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .error-banner-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #e74c3c;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* Success Screen */
+    .success-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100vh;
+      max-width: 402px;
+      margin: 0 auto;
+      padding-top: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0;
+      background: var(--bg-beige);
+      overflow: hidden;
+      z-index: 100;
+    }
+
+    .success-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3.637px;
+      justify-content: center;
+      margin-bottom: -20px;
+      width: 100%;
+      max-width: calc(58px * 5 + 3.637px * 4);
+    }
+
+    .grid-cell {
+      width: 58px;
+      height: 58px;
+      border-radius: 18.187px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 23.644px;
+      letter-spacing: -0.4729px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .grid-cell.filled {
+      background: #68a963;
+      color: white;
+    }
+
+    .grid-cell.empty {
+      background: var(--bg-beige);
+      border: 1px solid var(--border-gray);
+    }
+
+    .success-message {
+      text-align: center;
+      width: 323px;
+    }
+
+    .success-heading {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 44px;
+      line-height: 1.13;
+      letter-spacing: -0.88px;
+      color: var(--text-black);
+      margin-bottom: 16px;
+      margin-top: 0;
+    }
+
+    .success-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 24px;
+      line-height: 1.3;
+      color: var(--text-tertiary);
+      margin-bottom: 40px;
+    }
+
+    .return-button {
+      width: 345px;
+      padding: 9px 79px;
+      background: var(--green-primary);
+      border: none;
+      border-radius: 52px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--text-black);
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      line-height: 36.781px;
+    }
+
+    .return-button:hover {
+      opacity: 0.9;
+    }
+
+    .return-button:active {
+      transform: scale(0.98);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 402px) {
+      .word-submission-form {
+        max-width: 100%;
+      }
+      
+      .form-screen,
+      .success-screen {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      
+      .main-title,
+      .description-text,
+      .name-input,
+      .email-input,
+      .disclaimer {
+        width: 100%;
+        max-width: 332px;
+      }
+      
+      .user-info-section {
+        align-items: flex-start;
+      }
+      
+      .user-info-form {
+        align-items: center;
+      }
+      
+      .input-group {
+        width: 100%;
+        align-items: center;
+      }
+      
+      .submit-button,
+      .return-button {
+        width: 100%;
+        max-width: 345px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root" class="word-submission-form"></div>
+
+  <script>
+    // Images
+    const images = {
+      mixBadge1: "https://www.figma.com/api/mcp/asset/dd5a46f0-0c47-49fc-9f23-71cb331116c5",
+      mixBadge2: "https://www.figma.com/api/mcp/asset/bc8bd178-f861-4f2a-a046-8ee0776d9aa7",
+      mixBadge3: "https://www.figma.com/api/mcp/asset/ec863b83-b7b2-44c2-b528-7d4e6cdbf1c6",
+      shareArrow: "https://www.figma.com/api/mcp/asset/7a51e128-76b8-4e43-948b-8f11d439124a",
+      phoneMockupFull: "https://i.ibb.co/bM69nZSy/Twitter-post-3.png"
+    };
+
+    // Constants
+    const TURKISH_LETTERS = /^[A-Za-zÇĞİÖŞÜçğıöşü]+$/;
+
+    // Validation functions
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    function validateWord(word) {
+      if (word.length !== 5) return false;
+      const wordStr = word.join('');
+      return TURKISH_LETTERS.test(wordStr) && wordStr.length === 5;
+    }
+
+    function validateName(name) {
+      return name.trim().length >= 2;
+    }
+
+    // State management
+    let state = {
+      word: [],
+      name: '',
+      email: '',
+      isSubmitting: false,
+      submissionStatus: 'idle',
+      errors: {}
+    };
+
+    function getDerivedState() {
+      const wordLength = state.word.length;
+      const isWordComplete = wordLength === 5;
+      const isWordValid = validateWord(state.word);
+      const isNameValid = validateName(state.name);
+      const isEmailValid = validateEmail(state.email);
+      const isFormValid = isWordValid && isNameValid && isEmailValid;
+      
+      const submitEnabled = 
+        isWordComplete && 
+        isFormValid && 
+        !state.isSubmitting && 
+        state.submissionStatus !== 'success';
+
+      let currentUIState = 'empty';
+      if (state.submissionStatus === 'success') {
+        currentUIState = 'success';
+      } else if (wordLength === 0) {
+        currentUIState = 'empty';
+      } else if (wordLength < 5) {
+        currentUIState = 'typing';
+      } else if (wordLength === 5 && isFormValid) {
+        currentUIState = 'ready';
+      }
+
+      return {
+        wordLength,
+        isWordComplete,
+        isFormValid,
+        submitEnabled,
+        currentUIState
+      };
+    }
+
+    function updateWord(index, letter) {
+      const newWord = [...state.word];
+      if (letter) {
+        const upperLetter = letter.toLocaleUpperCase('tr-TR');
+        if (TURKISH_LETTERS.test(upperLetter)) {
+          newWord[index] = upperLetter;
+        }
+      } else {
+        newWord[index] = '';
+      }
+      const filteredWord = newWord.filter(l => l !== '');
+      state.word = filteredWord.slice(0, 5);
+      state.errors = { ...state.errors, word: undefined };
+      render();
+    }
+
+    function updateName(name) {
+      state.name = name;
+      state.errors = { ...state.errors, name: undefined };
+      render();
+    }
+
+    function updateEmail(email) {
+      state.email = email;
+      state.errors = { ...state.errors, email: undefined };
+      render();
+    }
+
+    async function submitForm() {
+      const wordError = validateWord(state.word) ? undefined : 'Kelime tam olarak 5 harf olmalıdır';
+      const nameError = validateName(state.name) ? undefined : 'İsim en az 2 karakter olmalıdır';
+      const emailError = validateEmail(state.email) ? undefined : 'Lütfen geçerli bir e-posta adresi girin';
+
+      if (wordError || nameError || emailError) {
+        state.errors = { word: wordError, name: nameError, email: emailError };
+        render();
+        return;
+      }
+
+      state.isSubmitting = true;
+      state.submissionStatus = 'submitting';
+      render();
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        state.isSubmitting = false;
+        state.submissionStatus = 'success';
+        document.body.classList.add('success-mode');
+        render();
+      } catch (error) {
+        state.isSubmitting = false;
+        state.submissionStatus = 'error';
+        state.errors = { 
+          ...state.errors, 
+          word: 'Gönderim başarısız oldu. Lütfen tekrar deneyin.',
+          name: undefined,
+          email: undefined
+        };
+        render();
+      }
+    }
+
+    function handleShare() {
+      const shareData = {
+        title: 'Wordle Mix - Bundle Games',
+        text: 'Bundle Games\'e yeni oyun: Wordle Mix! Aklındaki 5 harfli kelimeyi gönder, sırası geldiğinde herkes senin kelimeni oynasın!',
+        url: window.location.href
+      };
+
+      if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+        navigator.share(shareData).catch(() => {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Link kopyalandı!');
+          });
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          alert('Link kopyalandı!');
+        });
+      }
+    }
+
+    function handleReturn() {
+      window.location.href = 'https://www.bundle.app/tr/gundem';
+    }
+
+    // Component rendering functions
+    function renderHeader() {
+      return `
+        <div class="header">
+          <div class="header-content">
+            <div class="logo-container">
+              <div class="logo-icon-wrapper">
+                <div class="logo-icon-top"></div>
+                <div class="logo-icon-bottom"></div>
+              </div>
+              <span class="logo-text">WORDLE</span>
+              <div class="mix-badges">
+                <img src="${images.mixBadge1}" alt="M" class="badge badge-1" />
+                <img src="${images.mixBadge2}" alt="I" class="badge badge-2" />
+                <img src="${images.mixBadge3}" alt="X" class="badge badge-3" />
+              </div>
+            </div>
+            <button class="share-button" onclick="handleShare()">
+              <span>Paylaş</span>
+              <div class="share-icon">
+                <img src="${images.shareArrow}" alt="Share" />
+              </div>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWordInputGrid() {
+      const inputs = [];
+      for (let i = 0; i < 5; i++) {
+        const letter = state.word[i] || '';
+        const isFilled = !!letter;
+        inputs.push(`
+          <div class="letter-box ${isFilled ? 'filled' : 'empty'}" onclick="if(${isFilled}) document.getElementById('word-input-${i}').focus()">
+            <input
+              id="word-input-${i}"
+              type="text"
+              maxlength="1"
+              value="${letter}"
+              class="letter-input ${isFilled ? 'filled' : ''}"
+              oninput="handleWordInput(${i}, this.value)"
+              onkeydown="handleWordKeyDown(${i}, event)"
+              onfocus="handleWordFocus(${i})"
+              onpaste="handleWordPaste(event)"
+              autocomplete="off"
+              aria-label="Letter ${i + 1} of 5"
+            />
+          </div>
+        `);
+      }
+      return `<div class="word-input-grid">${inputs.join('')}</div>`;
+    }
+
+    function renderUserInfoForm() {
+      return `
+        <div class="user-info-form">
+          <div class="input-group">
+            <input
+              id="name-input"
+              type="text"
+              class="name-input ${state.name ? 'filled' : ''} ${state.errors.name ? 'error' : ''}"
+              placeholder="Ad Soyad"
+              value="${state.name}"
+              oninput="updateName(this.value)"
+              onfocus="handleNameFocus()"
+              aria-label="Name"
+            />
+            ${state.errors.name ? `<span class="error-message">${state.errors.name}</span>` : ''}
+          </div>
+          <div class="input-group">
+            <input
+              id="email-input"
+              type="email"
+              class="email-input ${state.email ? 'filled' : ''} ${state.errors.email ? 'error' : ''}"
+              placeholder="E-mail"
+              value="${state.email}"
+              oninput="updateEmail(this.value)"
+              onfocus="handleEmailFocus()"
+              aria-label="Email"
+            />
+            ${state.errors.email ? `<span class="error-message">${state.errors.email}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSuccessGrid() {
+      const wordString = state.word.join('');
+      const boxes = [];
+      
+      wordString.split('').forEach(letter => {
+        boxes.push(`<div class="grid-cell filled">${letter}</div>`);
+      });
+      
+      const opacities = [0.7, 0.5, 0.3, 0.1];
+      for (let i = 5; i < 25; i++) {
+        const rowIndex = Math.floor((i - 5) / 5);
+        boxes.push(`<div class="grid-cell empty" style="opacity: ${opacities[rowIndex]}"></div>`);
+      }
+      
+      return `<div class="success-grid">${boxes.join('')}</div>`;
+    }
+
+    function renderSuccessMessage() {
+      return `
+        <div class="success-message">
+          <h1 class="success-heading">Harikasın!</h1>
+          <p class="success-subtitle">Kelimeni sisteme kaydettik.</p>
+          <button class="return-button" onclick="handleReturn()">Bundle'a Dön</button>
+        </div>
+      `;
+    }
+
+    function renderFormScreen() {
+      return `
+        <div class="form-screen">
+          <h1 class="main-title">Bundle Games'e yeni oyun: Wordle Mix</h1>
+          <div class="promotional-banner">
+            <img src="${images.phoneMockupFull}" alt="Wordle Mix Promotional Banner" class="promotional-banner-image" />
+          </div>
+          <div class="description-section">
+            <p class="description-text">
+              Bugüne kadar sayısız kez o 5 kutucuğa baktın ve doğru kelimeyi bulmaya çalıştın. Yeni Wordle Mix'te ise artık <strong>heyecanı sen yaratıyorsun</strong>:
+            </p>
+            <p class="description-text">
+              <strong>Aklındaki 5 harfli kelimeyi gönder</strong>, günü geldiğinde herkes senin kelimeni oynasın!
+            </p>
+          </div>
+          <div class="word-input-section">
+            <h2 class="section-label">5 Harfli Kelime Önerini Gir:</h2>
+            ${renderWordInputGrid()}
+            ${state.errors.word ? `<span class="error-message">${state.errors.word}</span>` : ''}
+          </div>
+          <div class="user-info-section">
+            <h2 class="section-label">Bilgilerin:</h2>
+            ${renderUserInfoForm()}
+          </div>
+          <p class="disclaimer">
+            *kelimen yayınlandığı gün senin adın ve soyadınla yayınlanacak, ve ayrıca sana mail ile bunu ulaştıracağız
+          </p>
+          ${state.submissionStatus === 'error' ? `
+            <div class="error-banner">
+              <p class="error-banner-text">${state.errors.word || 'Bir hata oluştu. Lütfen tekrar deneyin.'}</p>
+            </div>
+          ` : ''}
+          <button
+            class="submit-button ${getDerivedState().submitEnabled ? 'enabled' : 'disabled'}"
+            onclick="submitForm()"
+            ${!getDerivedState().submitEnabled || state.isSubmitting ? 'disabled' : ''}
+            aria-label="Formu gönder"
+          >
+            ${state.isSubmitting ? 'Gönderiliyor...' : 'Gönder'}
+          </button>
+        </div>
+      `;
+    }
+
+    function render() {
+      const root = document.getElementById('root');
+      const derivedState = getDerivedState();
+      
+      root.innerHTML = renderHeader();
+      
+      if (derivedState.currentUIState === 'success') {
+        root.innerHTML += `
+          <div class="success-screen">
+            ${renderSuccessGrid()}
+            ${renderSuccessMessage()}
+          </div>
+        `;
+      } else {
+        root.innerHTML += renderFormScreen();
+      }
+
+      // Auto-focus first empty input
+      if (derivedState.currentUIState !== 'success') {
+        const firstEmptyIndex = state.word.length;
+        if (firstEmptyIndex < 5) {
+          setTimeout(() => {
+            const input = document.getElementById(`word-input-${firstEmptyIndex}`);
+            if (input) input.focus();
+          }, 100);
+        }
+      }
+    }
+
+    // Event handlers
+    function handleWordInput(index, value) {
+      const letter = value.slice(-1).toLocaleUpperCase('tr-TR');
+      if (letter && TURKISH_LETTERS.test(letter)) {
+        updateWord(index, letter);
+        if (index < 4) {
+          setTimeout(() => {
+            const nextInput = document.getElementById(`word-input-${index + 1}`);
+            if (nextInput) nextInput.focus();
+          }, 10);
+        }
+      } else {
+        const input = document.getElementById(`word-input-${index}`);
+        if (input) input.value = state.word[index] || '';
+      }
+    }
+
+    function handleWordKeyDown(index, e) {
+      if (e.key === 'Backspace') {
+        if (state.word[index]) {
+          updateWord(index, '');
+        } else if (index > 0) {
+          const prevInput = document.getElementById(`word-input-${index - 1}`);
+          if (prevInput) prevInput.focus();
+          updateWord(index - 1, '');
+        }
+      }
+    }
+
+    function handleWordFocus(index) {
+      const input = document.getElementById(`word-input-${index}`);
+      if (input) {
+        requestAnimationFrame(() => {
+          const rect = input.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+          if (!isVisible) {
+            input.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }
+        });
+      }
+    }
+
+    function handleWordPaste(e) {
+      e.preventDefault();
+      const pastedText = e.clipboardData.getData('text').toLocaleUpperCase('tr-TR').slice(0, 5);
+      pastedText.split('').forEach((letter, index) => {
+        if (index < 5 && TURKISH_LETTERS.test(letter)) {
+          updateWord(index, letter);
+        }
+      });
+    }
+
+    function handleNameFocus() {
+      const input = document.getElementById('name-input');
+      if (input) {
+        requestAnimationFrame(() => {
+          const rect = input.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+          if (!isVisible) {
+            input.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }
+        });
+      }
+    }
+
+    function handleEmailFocus() {
+      const input = document.getElementById('email-input');
+      if (input) {
+        requestAnimationFrame(() => {
+          const rect = input.getBoundingClientRect();
+          const viewportHeight = window.visualViewport?.height || window.innerHeight;
+          const isVisible = rect.top >= 0 && rect.bottom <= viewportHeight;
+          if (!isVisible) {
+            input.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest',
+              inline: 'nearest'
+            });
+          }
+        });
+      }
+    }
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>

@@ -196,7 +196,7 @@ body.success-mode {
 
 /* Promotional Banner */
 .promotional-banner {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -695,9 +695,9 @@ body.success-mode {
 .description-text {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   width: 332px;
 }
 
@@ -917,8 +917,8 @@ body.success-mode {
   line-height: 1.4;
   color: var(--text-tertiary);
   width: 332px;
-  margin-top: -12px;
-  margin-bottom: 12px;
+  margin-top: -8px;
+  margin-bottom: 32px;
 }
 
 /* Submit Button */

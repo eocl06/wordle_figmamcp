@@ -85,7 +85,7 @@ export const WordSubmissionForm: React.FC = () => {
           </div>
 
           <p className="disclaimer">
-            *kelimen yayınlandığı gün senin adın ve soyadınla yayınlanacak, ve ayrıca sana mail ile bunu ulaştıracağız
+            *Önerdiğin kelime, yıl içerisinde günün kelimesi olarak adın ve soyadınla birlikte oyunda yer alacak. O gün geldiğinde seni e-posta ile bilgilendireceğiz.
           </p>
 
           {state.submissionStatus === 'error' && (
